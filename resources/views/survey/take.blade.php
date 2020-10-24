@@ -72,16 +72,13 @@
                                         <input type="hidden" name="responses[{{ $key }}][question_id]"
                                                value="{{ $question->id }}">
 
-                                        <div class="form-group">
-                                            <div class="custom-control custom-radio custom-control-inline">
-                                                <label class="custom-control-label" for="answer-{{ $answer->id }}">
-                                                    {{ $answer->answer }}
-                                                    <input type="radio" class="custom-control-input"
-                                                           id="answer-{{ $answer->id }}"
-                                                           name="responses[{{ $key }}][answer_id]"
-                                                           value="{{ $answer->id }}" {{ (old('responses.'.$key.'.answer_id') == $answer->id) ? 'checked' : '' }}>
-                                                </label>
-                                            </div>
+                                        <div class="form-check">
+                                            <input type="radio" id="answer-{{ $answer->id }}"
+                                                   name="responses[{{ $key }}][answer_id]"
+                                                   class="form-check-input"
+                                                   value="{{ $answer->id }}" {{ (old('responses.'.$key.'.answer_id') == $answer->id) ? 'checked' : '' }}>
+                                            <label for="answer-{{ $answer->id }}"
+                                                   class="form-check-label">{{ $answer->answer }}</label>
                                         </div>
                                     @endforeach
                                 @endif

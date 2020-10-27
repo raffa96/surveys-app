@@ -17,4 +17,9 @@ class Survey extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+    public function surveyCompilations()
+    {
+        return $this->hasMany(SurveyCompilation::class);
+    }
 }

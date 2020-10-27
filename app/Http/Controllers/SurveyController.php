@@ -43,6 +43,14 @@ class SurveyController extends Controller
             'responses.*.question_id' => 'required'
         ]);
 
-        dd(request()->all());
+        $surveyCompilation = $survey->surveyCompilations()->create([
+            'name' => $data['name'],
+            'surname' => $data['surname'],
+            'email' => $data['email']
+        ]);
+
+        $surveyCompilation->responses()->createMany($data['responses']);
+
+        return view('survey.success');
     }
 }

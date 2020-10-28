@@ -13,6 +13,11 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
+    public function responses()
+    {
+        return $this->hasMany(SurveyResponse::class);
+    }
+
     public function survey()
     {
         return $this->belongsTo(Survey::class);

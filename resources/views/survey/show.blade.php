@@ -4,16 +4,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-sm-12 col-md-8 col-lg-8">
-                <div class="card mb-2">
+                <div class="card my-3">
                     <div class="card-header">
-                        <h3 class="card-title" style="color: #1b4b72;">Questionario: {{ $survey->title }}</h3>
+                        <h3 class="card-title m-0">{{ $survey->title }}</h3>
                     </div>
 
                     <div class="card-body">
-                        <p class="lead">
-                            <span style="color: #ae1c17; font-weight: bold;">Descrizione:</span>
-                            {{ $survey->description }}
-                        </p>
+                        <p class="lead text-justify">{{ $survey->description }}</p>
 
                         <small style="color: #2d995b; font-size: 0.8rem; font-style: italic;">
                             Creato il {{ date('d/m/y', strtotime($survey->created_at)) }}
@@ -27,15 +24,23 @@
                         </a>
 
                         <a href="/survey/take/{{ $survey->id.'-'.Str::slug($survey->title) }}">
-                            <button class="btn btn-outline-secondary">Compila questionario</button>
+                            <button class="btn btn-outline-primary">Compila questionario</button>
                         </a>
                     </div>
                 </div>
 
                 @foreach($survey->questions as $question)
-                    <div class="card mt-2">
-                        <div class="card-header">
-                            <h3 class="card-title">Domanda: {{ $question->question }}</h3>
+                    <div class="card my-3">
+                        <div class="card-header d-flex flex-row justify-content-between align-items-center">
+                            <div>
+                                <h3 class="card-title m-0">{{ $question->question }}</h3>
+                            </div>
+
+                            <div>
+                                <span class="badge badge-pill badge-primary p-2">
+                                    {{ $question->responses->count() > 0 ? 'Numero risposte: '.$question->responses->count() : 'Nessuna risposta' }}
+                                </span>
+                            </div>
                         </div>
 
                         <div class="card-body">
@@ -44,12 +49,30 @@
                                     Non ci sono risposte per questa domanda...
                                 </div>
                             @else
-                                <ul class="list-group-flush">
+                                <ul class="list-group">
                                     @foreach($question->answers as $answer)
-                                        <li class="list-group-item">{{ $answer->answer }}</li>
+                                        <li class="list-group-item d-flex flex-row justify-content-between align-items-center">
+                                            <div>{{ $answer->answer }}</div>
+
+                                            @if($question->responses->count() > 0)
+                                                <div>
+                                                    <span class="badge badge-pill badge-dark p-2">
+                                                        {{ intval($answer->responses->count()*100/$question->responses->count()) }}%
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        </li>
                                     @endforeach
                                 </ul>
                             @endif
+                        </div>
+
+                        <div class="card-footer d-flex flex-row justify-content-center">
+                            <form action="/survey/{{ $survey->id }}/question/{{ $question->id }}" method="post">
+                                @method('delete')
+                                <button type="submit" class="btn btn-outline-danger">ELIMINA</button>
+                                @csrf
+                            </form>
                         </div>
                     </div>
                 @endforeach

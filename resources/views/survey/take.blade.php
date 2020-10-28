@@ -4,10 +4,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h3>Compila il questionario: {{ $survey->title }}</h3>
+                <h3 class="text-center my-3">Compila il questionario: {{ $survey->title }}</h3>
 
                 <form action="/survey/take/{{ $survey->id.'-'.Str::slug($survey->title) }}" method="post">
-                    <div class="card mt-2">
+                    <div class="card my-3">
                         <div class="card-header">
                             <h3 class="card-title">Inserisci i tuoi dati</h3>
                         </div>
@@ -52,7 +52,7 @@
                     </div>
 
                     @foreach($survey->questions as $key => $question)
-                        <div class="card mt-2">
+                        <div class="card my-3">
                             <div class="card-header">
                                 <h3 class="card-title">{{ ++$key }}: {{ $question->question }}</h3>
                             </div>

@@ -6,6 +6,11 @@ use App\Models\Survey;
 
 class SurveyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['take', 'takeStore']);
+    }
+
     public function create()
     {
         return view('survey.create');
